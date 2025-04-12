@@ -15,7 +15,7 @@
   <!-- Liste des tâches -->
   <div v-else>
     <ul>
-      <li v-for="todo in sortedTodos()" :key="todo.id">
+      <li v-for="todo in sortedTodos" :key="todo.id">
         <label :for="todo.id">
           <input type="checkbox" v-model="todo.completed" />
           <span :class="{ completed: todo.completed }">
@@ -30,11 +30,14 @@
       <input type="checkbox" v-model="hideCompleted" />
       Masquer les tâches complétées
     </label>
+    <p v-if="remainingTodos > 0">
+      {{ remainingTodos }} {{ remainingTodos > 1 ? "tâches" : "tâche" }} à faire
+    </p>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 // ✅ Champ texte lié à l’input
 const newTodo = ref("");
@@ -74,7 +77,7 @@ const addTodo = () => {
 };
 
 // ✅ Fonction pour trier et filtrer les tâches
-const sortedTodos = () => {
+const sortedTodos = computed(() => {
   // Trie : tâches non complétées en premier
   const sorted = todos.value.toSorted((a, b) =>
     a.completed > b.completed ? 1 : -1
@@ -84,7 +87,11 @@ const sortedTodos = () => {
   return hideCompleted.value
     ? sorted.filter((todo) => !todo.completed)
     : sorted;
-};
+});
+
+const remainingTodos = computed(() => {
+  return todos.value.filter((todo) => todo.completed === false).length;
+});
 </script>
 
 <style scoped>
