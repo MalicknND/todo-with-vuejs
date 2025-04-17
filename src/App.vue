@@ -16,12 +16,7 @@
   <div v-else>
     <ul>
       <li v-for="todo in sortedTodos" :key="todo.id">
-        <label :for="todo.id">
-          <input type="checkbox" v-model="todo.completed" />
-          <span :class="{ completed: todo.completed }">
-            {{ todo.title }}
-          </span>
-        </label>
+        <CheckBox :label="todo.title" v-model="todo.completed" />
       </li>
     </ul>
 
@@ -38,6 +33,7 @@
 
 <script setup>
 import { ref, computed } from "vue";
+import CheckBox from "./CheckBox.vue";
 
 // ✅ Champ texte lié à l’input
 const newTodo = ref("");
@@ -98,6 +94,7 @@ const remainingTodos = computed(() => {
 /* ✅ Style pour les tâches complétées */
 .completed {
   text-decoration: line-through;
+
   color: gray;
 }
 </style>
