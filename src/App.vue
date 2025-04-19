@@ -34,7 +34,6 @@
 <script setup>
 import { ref, computed } from "vue";
 import CheckBox from "./CheckBox.vue";
-
 // ✅ Champ texte lié à l’input
 const newTodo = ref("");
 
